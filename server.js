@@ -32,13 +32,14 @@ async function guardarTareas(tareas) {
   }
 }
 //get
-app.get('/',(req,res) => {
-
-res.send('Bienvenido a la app');
-
-var tareas = obtenerTareas();
-res.send(`Las tareas actuales son ${tareas} `)
-
+app.get('/', async (req, res) => {
+  try {
+    //imprime las tareas en formato texto
+    const tareas = await obtenerTareas();
+    res.send(`Bienvenido a la app Las tareas actuales son: ${JSON.stringify(tareas)}`);
+  } catch (error) {
+    res.status(500).send('Error al obtener las tareas');
+  }
 });
 //post crear
 app.post ('/tareas', async (req, res) => {
@@ -69,7 +70,7 @@ await guardarTareas(tareas);}
 
 res.status(201).send(`titulo de tarea: ${JSON.stringify(titulo)}`)
 });
-
+//put
 app.put ('/tareas/:id', async (req, res) => {/*
   const { titulo, descripcion } = req.body;
   var tareas = await obtenerTareas();
@@ -100,6 +101,48 @@ catch (error){
   res.status(500).send('Error en el proceso');
 }
 });
+
+app.delete ('/tareas/:id',async (req,res) =>{
+ /* const { titulo, descripcion } = req.body;
+  var tareas = await obtenerTareas();
+  var tarea = find (tarea => tarea.id === Number(id));*/
+
+try{
+  const tareaId = parseInt(req.params.id);
+  
+//const datosNuevos = req.body;
+
+const tareas = await obtenerTareas();
+ //validando que el id exista
+const tareaObjetivo = tareas.findIndex((tareita) => tareita.id === tareaId);
+//Cuando findindex no encuentra ninguna tarea con ese id retorna -1
+console.log(tareaObjetivo,tareaId)
+if (tareaObjetivo === -1){
+  //404 porque no encontro ningun valor
+  return res.status(404).send(`Tarea ${tareaId} no encontrada`);
+}
+//eliminando
+
+//elimina solo 1
+const tareaEliminada = tareas.splice(tareaObjetivo, 1);
+await guardarTareas
+//tareas.delete(tareaObjetivo)
+console.log(`Datos  ${JSON.stringify(tareaObjetivo)}`);
+
+//tareas[tareaObjetivo] = {...tareas[tareaObjetivo], ...datosNuevos};
+
+await guardarTareas(tareas);
+
+
+res.json(tareaEliminada[0]);
+res.json(tareas[tareaObjetivo]);}
+catch (error){
+  console.error(`mostrando errror ${error}`)
+  res.status(500).send('Error en el proceso');
+}
+});
+
+
 
 
 
