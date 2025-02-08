@@ -35,7 +35,7 @@ async function guardarTareas(tareas) {
 await fs.writeFile('tareas.json', JSON.stringify(tareas));
 }
 
-
+//get
 app.get('/',(req,res) => {
 
 res.send('Bienvenido a la app');
@@ -44,7 +44,7 @@ var tareas = obtenerTareas();
 res.send(`Las tareas actuales son ${tareas} `)
 
 });
-
+//post crear
 app.post('/tareas', async(req,res) => {
 //const tareaId = parseInt(req.params.id);
 
@@ -66,7 +66,7 @@ await guardarTareas(tareas);
 res.status(201).send(`La tarea ${titulo} fue creada exitosamente`)
 });
 
-
+//put actualizar
 app.put('/:id', async(req,res) => {
 const tareaId = parseInt(req.params.id);
 var id = [0]
@@ -88,8 +88,8 @@ res.json(tareas[tareaObjetivo]);
 });
 
 
-
-app.delete('/tareas',(req,res) => {
+//delate
+app.delete('/:id',(req,res) => {
 
 });
 
