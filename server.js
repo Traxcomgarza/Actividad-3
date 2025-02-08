@@ -1,40 +1,35 @@
 const express = require('express');
 const  app = express();
 const PORT = 3000;
+const fs = require('fs').promises;
 
 app.use(express.json());
 
 app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-})
-
-const fs = require('fs').promises;
-
-async function obtenerTareas() {
-  const data = await fs.readFile('tareas.json', 'utf8');
-  return JSON.parse(data);
-}
-
-async function guardarTareas(tareas) {
-  await fs.writeFile('tareas.json', JSON.stringify(tareas));
-}
-
-
-app.use(express.json());
-
-//Funciones
-//funcion para leer JSON y obtener datos
+  console.log(`servidor corriendo en: http://localhost:${PORT}`);
+});
 
 
 async function obtenerTareas() {
-const data = await fs.readFile('tareas.json', 'utf8');
-return JSON.parse(data);
+  try {
+      const data = await fs.readFile('tareas.json', 'utf8');
+      return JSON.parse(data);
+  } catch (error) {
+      console.error('Error al leer el archivo', error);
+      throw error;
+  }
 }
 
 async function guardarTareas(tareas) {
-await fs.writeFile('tareas.json', JSON.stringify(tareas));
+  try {
+      const data = JSON.stringify(tareas, null, 2);
+      await fs.writeFile('tareas.json', data, 'utf8');
+      console.log('Datos escritos correctamente');
+  } catch (err) {
+      console.error('Error al escribir el archivo', err);
+      throw err;
+  }
 }
-
 //get
 app.get('/',(req,res) => {
 
@@ -45,62 +40,38 @@ res.send(`Las tareas actuales son ${tareas} `)
 
 });
 //post crear
-app.post('/tareas', async(req,res) => {
+app.post ('/tareas', async (req, res) => {
 //const tareaId = parseInt(req.params.id);
-
-
-let nuevaTarea = req.body
-
+//let nuevaTarea = req.body
+//se mantiene afuera para que lo reconozca el send 201
 const {titulo, descripcion} = req.body;
+try{
 
 var tareas = await obtenerTareas();
-
-const indice = Object.keys(tareas)
-var newindice = indice.length > 0 ? Math.max(...indice.map(Number))+1:1;
-const tarea = {id: newindice,titulo,descripcion};
-
+//id--------
+//const indice = Object.keys(tareas)
+//var newindice = indice.length > 0 ? Math.max(...indice.map(Number))+1:1;
+var newindice = tareas.length > 0 ? Math.max(...tareas.map(tarea => tarea.id)) + 1 : 1;
+//-------
+//Aqui se junta la variable de indice, para asignarla automaticamente
+var tarea = { id: newindice, titulo, descripcion }; 
+//se carga
 tareas.push(tarea);
+//Para reconocer que se envio
+console.log(`Datos  ${JSON.stringify(tarea)}`);
 
-await guardarTareas(tareas);
-
-res.status(201).send(`La tarea ${titulo} fue creada exitosamente`)
-});
-
-//put actualizar
-app.put('/:id', async(req,res) => {
-const tareaId = parseInt(req.params.id);
-var id = [0]
-const datosNuevos = req.body;
-
-const tareas = await obtenerTareas();
-
-const tareaObjetivo = tareas.findIndex((tareita) => tareita.id === tareaId);
-if (!tareaObjetivo){
-res.status(401);
+await guardarTareas(tareas);}
+  catch(error){
+  console.error(`mostrando errror ${error}`)
+  res.status(500).send('error en la solicitud');
 }
 
-tareas[tareaObjetivo] = {...tareas[tareasObjetivo], ...datosNuevos};
-
-await guardarTareas(tareas);
-
-res.json(tareas[tareaObjetivo]);
-
+res.status(201).send(`titulo de tarea: ${JSON.stringify(titulo)}`)
 });
 
-
-//delate
-app.delete('/:id',(req,res) => {
-
+app.put ('/tareas/:id', async (req, res) => {
+  
 });
 
 
 
-
-
-
-
-
-app.use("/", (req, res, next) =>{
-console.log(`Metodo ${req.method} recibido`)
-next()
-})
