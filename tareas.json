@@ -1,62 +1,7 @@
 [
   {
     "id": 1,
-    "titulo": "prueba",
-    "descripcion": "prueba"
-  },
-  {
-    "id": 2,
-    "titulo": "prueba",
-    "descripcion": "prueba"
-  },
-  {
-    "id": 3,
-    "titulo": "prueba",
-    "descripcion": "prueba"
-  },
-  {
-    "id": 4,
-    "titulo": "prueba",
-    "descripcion": "prueba"
-  },
-  {
-    "id": 5,
-    "titulo": "prueba",
-    "descripcion": "prueba"
-  },
-  {
-    "id": 6,
-    "titulo": "prueba",
-    "descripcion": "prueba"
-  },
-  {
-    "id": 7,
-    "titulo": "prueba",
-    "descripcion": "prueba"
-  },
-  {
-    "id": 8,
-    "titulo": "prueba",
-    "descripcion": "prueba"
-  },
-  {
-    "id": 9,
-    "titulo": "prueba",
-    "descripcion": "prueba"
-  },
-  {
-    "id": 10,
-    "titulo": "prueba",
-    "descripcion": "prueba"
-  },
-  {
-    "id": 11,
-    "titulo": "titulo prueba1",
-    "descripcion": "prueba"
-  },
-  {
-    "id": 12,
-    "titulo": "titulo prueba1",
-    "descripcion": "prueba"
+    "titulo": "PRUEBA DE PUT ",
+    "descripcion": "ESTOY UsANDO UNA PRUEBA DE PUT"
   }
 ]

@@ -1,4 +1,5 @@
 const express = require('express');
+const { findSourceMap } = require('module');
 const  app = express();
 const PORT = 3000;
 const fs = require('fs').promises;
@@ -69,8 +70,35 @@ await guardarTareas(tareas);}
 res.status(201).send(`titulo de tarea: ${JSON.stringify(titulo)}`)
 });
 
-app.put ('/tareas/:id', async (req, res) => {
+app.put ('/tareas/:id', async (req, res) => {/*
+  const { titulo, descripcion } = req.body;
+  var tareas = await obtenerTareas();
+  var tarea = find (tarea => tarea.id === Number(id));*/
+
+try{
+  const tareaId = parseInt(req.params.id);
   
+const datosNuevos = req.body;
+
+const tareas = await obtenerTareas();
+ //validando que el id exista
+const tareaObjetivo = tareas.findIndex((tareita) => tareita.id === tareaId);
+//Cuando findindex no encuentra ninguna tarea con ese id retorna -1
+console.log(tareaObjetivo,tareaId)
+if (tareaObjetivo === -1){
+  //404 porque no encontro ningun valor
+  return res.status(404).send(`Tarea ${tareaId} no encontrada`);
+}
+
+tareas[tareaObjetivo] = {...tareas[tareaObjetivo], ...datosNuevos};
+
+await guardarTareas(tareas);
+
+res.json(tareas[tareaObjetivo]);}
+catch (error){
+  console.error(`mostrando errror ${error}`)
+  res.status(500).send('Error en el proceso');
+}
 });
 
 
