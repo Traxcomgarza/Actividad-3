@@ -1,18 +1,8 @@
 [
   {
     "id": 1,
-    "titulo": "titulo prueba1",
-    "descripcion": "prueba"
-  },
-  {
-    "id": 2,
-    "titulo": "titulo prueba1",
-    "descripcion": "prueba"
-  },
-  {
-    "id": 3,
-    "titulo": "titulo prueba1",
-    "descripcion": "prueba"
+    "titulo": "PRUEBA DE token ",
+    "descripcion": "ESTOY UsANDO UNA PRUEBA DE PUT"
   },
   {
     "id": 4,
@@ -21,8 +11,8 @@
   },
   {
     "id": 5,
-    "titulo": "titulo prueba1",
-    "descripcion": "prueba"
+    "titulo": "PRUEBA DE token ",
+    "descripcion": "ESTOY UsANDO UNA PRUEBA DE PUT"
   },
   {
     "id": 6,
